@@ -8,9 +8,9 @@
 <style>
 body {
   font-family: 'Nunito', sans-serif;
-  background: 
-    linear-gradient(rgba(210, 180, 140, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(210, 180, 140, 0.15) 1px, transparent 1px),
+  background:
+    linear-gradient(rgba(210, 180, 140, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(210, 180, 140, 0.1) 1px, transparent 1px),
     linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
   background-size: 20px 20px;
   margin: 0;
@@ -21,9 +21,7 @@ body {
   align-items: flex-start;
   position: relative;
 }
-
-.toggle-container { margin-bottom: 10px; }
-
+.toggle-container { margin-bottom: 10px; font-weight: bold; }
 .market-container {
   width: 90%;
   max-width: 1200px;
@@ -32,14 +30,13 @@ body {
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start; 
-  align-items: flex-start;     
+  align-items: flex-start;
 }
-
 .card {
-  background: rgb(231, 170, 0);
-  border-radius: 15px;
-  box-shadow: inset 0px -10px 0px 0px rgba(0,0,0,0.1);
-  border: 3px solid #ffd25f; /* stroke matches open button */
+  background: linear-gradient(180deg, #ffe27a, #e7aa00);
+  border-radius: 20px;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+  border: 3px solid #ffd25f;
   width: 200px;
   padding: 15px;
   text-align: center;
@@ -47,39 +44,50 @@ body {
   flex-direction: column;
   gap: 8px;
   flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
-
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.25);
+}
 .card img {
   width: 100%;
   height: auto;
   border-radius: 18px;
-  box-shadow: 0px 10px 6px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 8px 10px rgba(0,0,0,0.15);
   margin: 0 auto;
 }
-
 .pack-name {
   font-family: 'Titan One', cursive;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin: 0;
   color: black;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
 }
-
 button {
   margin-top: 5px;
-  padding: 8px 50px;
-  background: #ffd25f;
+  padding: 10px 50px;
+  background: linear-gradient(180deg, #ffd25f, #e7b600);
   color: rgb(0, 0, 0);
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  box-shadow: inset 0px -4px 0px 0px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
   font-size: 18px;
   font-family: 'Nunito', sans-serif;
-  transition: background 0.3s, opacity 0.3s;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.3s;
 }
-
+button:hover:enabled {
+  transform: scale(1.05);
+  background: linear-gradient(180deg, #ffe27a, #d89d00);
+  box-shadow: 0 6px 0 rgba(0,0,0,0.25);
+}
+button:active:enabled {
+  transform: scale(0.97);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.3);
+}
 button:disabled { opacity: 0.6; cursor: not-allowed; }
-button:hover:enabled { background: #b28000; }
 
 #resultsContainer {
   position: fixed;
@@ -92,11 +100,10 @@ button:hover:enabled { background: #b28000; }
   align-items: center;
   z-index: 2003;
 }
-
 .result-card {
-  border-radius: 15px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: inset 0px -10px 0px 0px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
   width: 375px;
   height: 375px;
   display: flex;
@@ -104,18 +111,15 @@ button:hover:enabled { background: #b28000; }
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: scale(0.8);
+  transition: opacity 0.35s ease, transform 0.35s ease;
   color: black;
-  z-index: 2004;
-  position: relative;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
-
-.result-card.show { opacity: 1; transform: translateY(0); }
-.result-card.hide { opacity: 0; transform: translateY(20px); }
+.result-card.show { opacity: 1; transform: scale(1); }
+.result-card.hide { opacity: 0; transform: scale(0.8); }
 
 .open-animation {
   position: fixed;
@@ -127,37 +131,10 @@ button:hover:enabled { background: #b28000; }
   background-position: center;
   transform: translate(-50%, -50%) scale(0) rotate(0deg);
   opacity: 0;
-  pointer-events: auto;
   z-index: 2001;
   border-radius: 20px;
   cursor: pointer;
 }
-
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  padding: 20px;
-  z-index: 2002;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; /* vertically center */
-  gap: 10px;
-  min-width: 250px;
-  text-align: center; /* horizontally center */
-}
-
-.modal p {
-  margin: 0;
-  text-align: center;
-}
-
-.modal button { width: 80px; }
 
 .overlay {
   position: fixed;
@@ -171,41 +148,69 @@ button:hover:enabled { background: #b28000; }
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
-
 .overlay.active { opacity: 1; pointer-events: all; }
 
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: linear-gradient(135deg, #fff8dc, #ffffff);
+  border: 3px solid #ffd25f;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  padding: 25px;
+  z-index: 2002;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  min-width: 280px;
+  text-align: center;
+  animation: popIn 0.3s ease forwards;
+}
+@keyframes popIn {
+  from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.modal h2 { font-family: 'Titan One', cursive; font-size: 1.6rem; margin: 0; color: #b28000; }
+.modal p { margin: 0; font-size: 1rem; }
+#infoModal ul { list-style: none; padding: 0; margin: 0; }
+#infoModal li { font-weight: bold; margin: 4px 0; }
 </style>
 </head>
 <body>
 
 <div class="toggle-container">
-  <label>
-    <input type="checkbox" id="instantToggle"> Instant Open
-  </label>
+  <label><input type="checkbox" id="instantToggle"> Instant Open</label>
 </div>
 
 <div class="market-container">
-  <!-- 8 Packs -->
-  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
-  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
-  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
-  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
-  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
-  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
-  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
-  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
+  <div class="card">
+    <img src="https://i.postimg.cc/8Cs9nSzs/Breakfast.png">
+    <h2 class="pack-name">Breakfast Pack</h2>
+    <button class="openBtn">ð° Open</button>
+  </div>
 </div>
 
 <div id="resultsContainer"></div>
 <div class="overlay" id="overlay"></div>
 
 <div class="modal" id="confirmModal">
+  <h2>Open Pack?</h2>
   <p id="modalText">Want to open this pack?</p>
   <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
     <button id="yesBtn">Yes</button>
     <button id="infoBtn">Info</button>
     <button id="noBtn">No</button>
   </div>
+</div>
+
+<div class="modal" id="infoModal">
+  <h2>Pack Info</h2>
+  <ul id="rarityList"></ul>
+  <button onclick="closeInfoModal()">Close</button>
 </div>
 
 <script>
@@ -216,14 +221,21 @@ const noBtn = document.getElementById("noBtn");
 const infoBtn = document.getElementById("infoBtn");
 const overlay = document.getElementById("overlay");
 const instantToggle = document.getElementById("instantToggle");
+const infoModal = document.getElementById("infoModal");
+const rarityList = document.getElementById("rarityList");
 
 const blooks = [
-  {name: "Placeholder", rarity:"Uncommon", color:"limegreen", chance: "40%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"},
-  {name: "Placeholder", rarity:"Rare", color:"blue", chance: "25%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"},
-  {name: "Placeholder", rarity:"Epic", color:"red", chance: "15%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"},
-  {name: "Placeholder", rarity:"Legendary", color:"orange", chance: "10%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"},
-  {name: "Placeholder", rarity:"Chroma", color:"cyan", chance: "7%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"},
-  {name: "Placeholder", rarity:"Mystical", color:"purple", chance: "3%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"}
+  {name: "Toast", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"https://i.postimg.cc/NGJcDp4N/toast.webp"},
+  {name: "Cereal", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"https://i.postimg.cc/HsFCDnFX/cereal.webp"},
+  {name: "Yogurt", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"https://i.postimg.cc/7hWrLZhv/yogurt.webp"},
+  {name: "Breakfast Combo", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"https://i.postimg.cc/zfrZvMzf/breakfastcombo.webp"},
+  {name: "Orange Juice", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"https://i.postimg.cc/vH4dNf2G/orangejuice.webp"},
+  {name: "Milk", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"https://i.postimg.cc/0ym18xq3/milk.webp"},
+  {name: "Waffle", rarity:"Rare", color:"blue", chance: "9%", image:"https://i.postimg.cc/MGmkQDHm/waffle.webp"},
+  {name: "Pancakes", rarity:"Rare", color:"blue", chance: "9%", image:"https://i.postimg.cc/cC6PPGmF/pancakes.webp"},
+  {name: "French Toast", rarity:"Epic", color:"red", chance: "5%", image:"https://i.postimg.cc/QCPv3YYh/frenchtoast.webp"},
+  {name: "Pizza", rarity:"Epic", color:"red", chance: "2%", image:"https://i.postimg.cc/TwdzqDWM/pizza.webp"},
+  {name: "Sandwich", rarity:"Legendary", color:"orange", chance: "0.5%", image:"https://i.postimg.cc/V6K37kjS/sandwich.webp"}
 ];
 
 let currentCard = null;
@@ -237,6 +249,8 @@ document.querySelectorAll(".card").forEach(card => {
   btn.addEventListener("click", () => {
     if(openingInProgress) return;
     currentCard = card;
+    const packName = card.querySelector(".pack-name").textContent;
+    document.getElementById("modalText").textContent = `Want to open the "${packName}" pack?`;
     if(instantToggle.checked){
       openPack(currentCard);
     } else {
@@ -258,11 +272,129 @@ noBtn.addEventListener("click", () => {
 });
 
 infoBtn.addEventListener("click", () => {
-  let infoText = "Blook rarities:\n";
-  blooks.forEach(b => infoText += `- ${b.rarity}: ${b.name} (${b.chance})\n`);
-  alert(infoText);
+  rarityList.innerHTML = "";
+  blooks.forEach(b => {
+    const li = document.createElement("li");
+    li.style.color = b.color;
+    li.style.webkitTextStroke = "1px black";
+    li.textContent = `${b.name} â ${b.chance}`;
+    rarityList.appendChild(li);
+  });
+  modal.style.display = "none";
+  infoModal.style.display = "flex";
 });
+function closeInfoModal() { infoModal.style.display = "none"; modal.style.display = "flex"; }
 
+// --- Confetti ---
+function createConfettiAndSparkles(rarityColor, rarity){
+  document.querySelectorAll("canvas.confetti-canvas").forEach(c => c.remove());
+  const canvas = document.createElement("canvas");
+  canvas.classList.add("confetti-canvas");
+  canvas.style.position="fixed";
+  canvas.style.top="0";
+  canvas.style.left="0";
+  canvas.style.width="100%";
+  canvas.style.height="100%";
+  canvas.style.pointerEvents="none";
+  canvas.style.zIndex="999"; // behind result card
+  canvas.style.opacity="1";
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const confetti = [], sparkles = [];
+  const shapes = ["circle","square","triangle","line"];
+  let numConfetti = 150;
+  if(rarity==="Rare") numConfetti=200;
+  if(rarity==="Epic") numConfetti=250;
+  if(rarity==="Legendary") numConfetti=300;
+
+  for(let i=0;i<numConfetti;i++){
+    let color = "hsl(120,80%,35%)";
+    switch(rarityColor){
+      case "limegreen": color="hsl(120,80%,35%)"; break;
+      case "blue": color="hsl(210,80%,35%)"; break;
+      case "red": color="hsl(0,80%,35%)"; break;
+      case "orange": color="hsl(30,80%,35%)"; break;
+    }
+    confetti.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height - canvas.height,
+      r:Math.random()*12+8,
+      tilt:Math.random()*10-10,
+      tiltAngleIncrement:Math.random()*0.07+0.05,
+      tiltAngle:0,
+      drift:Math.random()*1.5-0.75,
+      speed:Math.random()*3+2,
+      rotation:Math.random()*Math.PI*2,
+      rotationSpeed:Math.random()*0.1-0.05,
+      color:color,
+      shape:shapes[Math.floor(Math.random()*shapes.length)]
+    });
+  }
+
+  if(rarity==="Epic"||rarity==="Legendary"){
+    let numSparkles = (rarity==="Epic")?60:90;
+    for(let i=0;i<numSparkles;i++){
+      sparkles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*4+3,
+        speedY:Math.random()*2+1,
+        speedX:(Math.random()-0.5)*1,
+        alpha:Math.random()*0.5+0.5
+      });
+    }
+  }
+
+  let fadeOut = false;
+  let fadeAlpha = 1;
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    confetti.forEach(c=>{
+      c.tiltAngle+=c.tiltAngleIncrement;
+      c.y+=c.speed;
+      c.x+=c.drift;
+      c.tilt=Math.sin(c.tiltAngle)*15;
+      ctx.fillStyle=c.color;
+      ctx.save();
+      ctx.translate(c.x,c.y);
+      ctx.rotate(c.rotation);
+      switch(c.shape){
+        case "circle": ctx.beginPath(); ctx.arc(0,0,c.r,0,2*Math.PI); ctx.fill(); break;
+        case "square": ctx.fillRect(-c.r/2,-c.r/2,c.r,c.r); break;
+        case "triangle": ctx.beginPath(); ctx.moveTo(0,-c.r); ctx.lineTo(c.r/2,c.r/2); ctx.lineTo(-c.r/2,c.r/2); ctx.closePath(); ctx.fill(); break;
+        case "line": ctx.beginPath(); ctx.moveTo(0,-c.r); ctx.lineTo(0,c.r); ctx.lineWidth=2; ctx.strokeStyle=c.color; ctx.stroke(); break;
+      }
+      ctx.restore();
+      if(c.y>canvas.height) c.y=-10;
+      if(c.x>canvas.width) c.x=0;
+      if(c.x<0) c.x=canvas.width;
+    });
+    sparkles.forEach(s=>{
+      s.x+=s.speedX; s.y+=s.speedY;
+      ctx.fillStyle=`rgba(255,255,255,${s.alpha})`;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,2*Math.PI); ctx.fill();
+      if(s.y>canvas.height) s.y=0;
+      if(s.x>canvas.width) s.x=0;
+      if(s.x<0) s.x=canvas.width;
+    });
+
+    if(fadeOut){
+      fadeAlpha -= 0.08; // faster fade
+      canvas.style.opacity = fadeAlpha;
+      if(fadeAlpha <= 0){ canvas.remove(); return; }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+  return { fadeOut: () => { fadeOut = true; } };
+}
+
+// --- Open Pack ---
 function openPack(card){
   const btn = card.querySelector(".openBtn");
   const img = card.querySelector("img");
@@ -271,63 +403,76 @@ function openPack(card){
   showOverlay();
 
   const previous = resultsContainer.querySelector(".result-card");
-  if (previous) previous.remove();
+  if(previous) previous.remove();
+
+  const blook = blooks[Math.floor(Math.random()*blooks.length)];
+
+  if(instantToggle.checked){
+    setTimeout(()=>{ createResultCard(img,blook,btn); },100);
+    return;
+  }
 
   const animationSprite = document.createElement("div");
   animationSprite.classList.add("open-animation");
   animationSprite.style.backgroundImage = `url(${img.src})`;
   document.body.appendChild(animationSprite);
 
-  animationSprite.style.transform = "translate(-50%, -50%) scale(0) rotate(0deg)";
-  animationSprite.style.opacity = "0";
-  requestAnimationFrame(() => {
-    animationSprite.style.transition = "transform 0.3s ease, opacity 0.3s ease";
-    animationSprite.style.transform = "translate(-50%, -50%) scale(1.2) rotate(0deg)";
-    animationSprite.style.opacity = "1";
+  requestAnimationFrame(()=>{
+    animationSprite.style.transition="transform 0.4s ease-out, opacity 0.4s ease-out";
+    animationSprite.style.transform="translate(-50%,-50%) scale(1.2) rotate(10deg)";
+    animationSprite.style.opacity="1";
   });
 
-  animationSprite.addEventListener("click", () => {
-    animationSprite.style.transition = "transform 0.6s ease, opacity 0.6s ease";
-    animationSprite.style.transform = "translate(-50%, -50%) scale(0) rotate(720deg)";
-    animationSprite.style.opacity = "0";
+  let autoOpenTimeout = setTimeout(()=> animationSprite.click(),3000);
 
-    animationSprite.addEventListener("transitionend", () => {
+  animationSprite.addEventListener("click",()=>{
+    clearTimeout(autoOpenTimeout);
+    animationSprite.style.transition="transform 0.6s ease-in-out, opacity 0.6s ease-in-out";
+    animationSprite.style.transform="translate(-50%,-50%) scale(0) rotate(720deg)";
+    animationSprite.style.opacity="0";
+
+    animationSprite.addEventListener("transitionend",()=>{
       animationSprite.remove();
+      createResultCard(img,blook,btn);
+    }, {once:true});
+  },{once:true});
+}
 
-      const blook = blooks[Math.floor(Math.random()*blooks.length)];
-      const resultCard = document.createElement("div");
-      resultCard.classList.add("result-card");
-      resultCard.style.backgroundImage = `url(${img.src})`;
+// --- Result Card ---
+function createResultCard(img,blook,btn){
+  const resultCard = document.createElement("div");
+  resultCard.classList.add("result-card");
+  resultCard.style.backgroundImage = `url(https://i.postimg.cc/jdK9YNSp/download.webp)`;
+  resultCard.innerHTML = `
+    <div style="display:flex; flex-direction:column; height:100%; justify-content:space-between; align-items:center; padding:10px; color:black; text-shadow:1px 1px 2px white;">
+      <div style="text-align:center;">
+        <h2 style="margin:0; font-size:1.6rem; font-family:'Titan One';">${blook.name}</h2>
+        <h3 style="margin:0; font-size:1.2rem; font-family:'Titan One'; color:${blook.color}; -webkit-text-stroke:1px black;">${blook.rarity}</h3>
+      </div>
+      <img src="${blook.image}" alt="${blook.name}" style="width:50%; border-radius:10px;">
+      <p style="margin:0; font-weight:bold; font-size:1.4rem;">${blook.chance}</p>
+    </div>
+  `;
+  resultsContainer.appendChild(resultCard);
 
-      resultCard.innerHTML = `
-        <div style="display:flex; flex-direction:column; height:100%; justify-content:space-between; align-items:center; padding:10px; color:black; text-shadow:1px 1px 2px white;">
-          <div style="text-align:center;">
-            <h2 style="margin:0; font-size:1.6rem; font-family:'Titan One';">${blook.name}</h2>
-            <h3 style="margin:0; font-size:1.2rem; font-family:'Titan One'; color:${blook.color}; -webkit-text-stroke:1px black;">${blook.rarity}</h3>
-          </div>
-          <img src="${blook.image}" alt="${blook.name}" style="width:50%; border-radius:10px;">
-          <p style="margin:0; font-weight:bold; font-size:1.4rem;">${blook.chance}</p>
-        </div>
-      `;
-      resultsContainer.appendChild(resultCard);
-      setTimeout(()=> resultCard.classList.add("show"),50);
+  setTimeout(()=>{
+    resultCard.classList.add("show");
+    const confettiEffect = createConfettiAndSparkles(blook.color,blook.rarity);
 
-      const hideResult = () => {
-        resultCard.classList.remove("show");
-        resultCard.classList.add("hide");
-        setTimeout(() => resultCard.remove(), 300);
-        hideOverlay();
-        openingInProgress = false;
-        btn.disabled = false;
-        document.removeEventListener("click", hideResult);
-      };
-
-      setTimeout(() => {
-        document.addEventListener("click", hideResult, { once: true });
-      }, 500);
-
-    }, { once: true });
-  }, { once: true });
+    const hideResult = ()=>{
+      resultCard.classList.remove("show");
+      resultCard.classList.add("hide");
+      setTimeout(()=>{
+        resultCard.remove();
+        confettiEffect.fadeOut();
+      },300);
+      hideOverlay();
+      openingInProgress=false;
+      btn.disabled=false;
+      document.removeEventListener("click",hideResult);
+    };
+    setTimeout(()=>{document.addEventListener("click",hideResult,{once:true});},500);
+  },100);
 }
 </script>
 </body>
