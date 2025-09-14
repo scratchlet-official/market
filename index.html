@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scratchlet - Market</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Titan+One&display=swap" rel="stylesheet">
+<style>
+body {
+  font-family: 'Nunito', sans-serif;
+  background: 
+    linear-gradient(rgba(210, 180, 140, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(210, 180, 140, 0.15) 1px, transparent 1px),
+    linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+  background-size: 20px 20px;
+  margin: 0;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+
+.toggle-container { margin-bottom: 10px; }
+
+.market-container {
+  width: 90%;
+  max-width: 1200px;
+  height: 80vh;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start; 
+  align-items: flex-start;     
+}
+
+.card {
+  background: rgb(231, 170, 0);
+  border-radius: 15px;
+  box-shadow: inset 0px -10px 0px 0px rgba(0,0,0,0.1);
+  border: 3px solid #ffd25f; /* stroke matches open button */
+  width: 200px;
+  padding: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  box-shadow: 0px 10px 6px 1px rgba(0,0,0,0.1);
+  margin: 0 auto;
+}
+
+.pack-name {
+  font-family: 'Titan One', cursive;
+  font-size: 1.2rem;
+  margin: 0;
+  color: black;
+}
+
+button {
+  margin-top: 5px;
+  padding: 8px 50px;
+  background: #ffd25f;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: inset 0px -4px 0px 0px rgba(0,0,0,0.1);
+  font-size: 18px;
+  font-family: 'Nunito', sans-serif;
+  transition: background 0.3s, opacity 0.3s;
+}
+
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+button:hover:enabled { background: #b28000; }
+
+#resultsContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  z-index: 2003;
+}
+
+.result-card {
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: inset 0px -10px 0px 0px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.15);
+  width: 375px;
+  height: 375px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  color: black;
+  z-index: 2004;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.result-card.show { opacity: 1; transform: translateY(0); }
+.result-card.hide { opacity: 0; transform: translateY(20px); }
+
+.open-animation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 243px;
+  height: 243px;
+  background-size: cover;
+  background-position: center;
+  transform: translate(-50%, -50%) scale(0) rotate(0deg);
+  opacity: 0;
+  pointer-events: auto;
+  z-index: 2001;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  padding: 20px;
+  z-index: 2002;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* vertically center */
+  gap: 10px;
+  min-width: 250px;
+  text-align: center; /* horizontally center */
+}
+
+.modal p {
+  margin: 0;
+  text-align: center;
+}
+
+.modal button { width: 80px; }
+
+.overlay {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.5);
+  z-index:2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.overlay.active { opacity: 1; pointer-events: all; }
+
+</style>
+</head>
+<body>
+
+<div class="toggle-container">
+  <label>
+    <input type="checkbox" id="instantToggle"> Instant Open
+  </label>
+</div>
+
+<div class="market-container">
+  <!-- 8 Packs -->
+  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
+  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
+  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
+  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
+  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
+  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
+  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
+  <div class="card"><img src="https://i.postimg.cc/764GtCtH/Placeholder-Pack.webp"><h2 class="pack-name">Placeholder Pack</h2><button class="openBtn">💰 Open</button></div>
+</div>
+
+<div id="resultsContainer"></div>
+<div class="overlay" id="overlay"></div>
+
+<div class="modal" id="confirmModal">
+  <p id="modalText">Want to open this pack?</p>
+  <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+    <button id="yesBtn">Yes</button>
+    <button id="infoBtn">Info</button>
+    <button id="noBtn">No</button>
+  </div>
+</div>
+
+<script>
+const resultsContainer = document.getElementById("resultsContainer");
+const modal = document.getElementById("confirmModal");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const infoBtn = document.getElementById("infoBtn");
+const overlay = document.getElementById("overlay");
+const instantToggle = document.getElementById("instantToggle");
+
+const blooks = [
+  {name: "Placeholder", rarity:"Uncommon", color:"limegreen", chance: "40%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"},
+  {name: "Placeholder", rarity:"Rare", color:"blue", chance: "25%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"},
+  {name: "Placeholder", rarity:"Epic", color:"red", chance: "15%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"},
+  {name: "Placeholder", rarity:"Legendary", color:"orange", chance: "10%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"},
+  {name: "Placeholder", rarity:"Chroma", color:"cyan", chance: "7%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"},
+  {name: "Placeholder", rarity:"Mystical", color:"purple", chance: "3%", image:"https://i.postimg.cc/9fZwBPpg/Placeholder.png"}
+];
+
+let currentCard = null;
+let openingInProgress = false;
+
+function showOverlay() { overlay.classList.add("active"); }
+function hideOverlay() { overlay.classList.remove("active"); }
+
+document.querySelectorAll(".card").forEach(card => {
+  const btn = card.querySelector(".openBtn");
+  btn.addEventListener("click", () => {
+    if(openingInProgress) return;
+    currentCard = card;
+    if(instantToggle.checked){
+      openPack(currentCard);
+    } else {
+      modal.style.display = "flex";
+      showOverlay();
+    }
+  });
+});
+
+yesBtn.addEventListener("click", () => {
+  if(!currentCard) return;
+  modal.style.display = "none";
+  openPack(currentCard);
+});
+
+noBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+  hideOverlay();
+});
+
+infoBtn.addEventListener("click", () => {
+  let infoText = "Blook rarities:\n";
+  blooks.forEach(b => infoText += `- ${b.rarity}: ${b.name} (${b.chance})\n`);
+  alert(infoText);
+});
+
+function openPack(card){
+  const btn = card.querySelector(".openBtn");
+  const img = card.querySelector("img");
+  openingInProgress = true;
+  btn.disabled = true;
+  showOverlay();
+
+  const previous = resultsContainer.querySelector(".result-card");
+  if (previous) previous.remove();
+
+  const animationSprite = document.createElement("div");
+  animationSprite.classList.add("open-animation");
+  animationSprite.style.backgroundImage = `url(${img.src})`;
+  document.body.appendChild(animationSprite);
+
+  animationSprite.style.transform = "translate(-50%, -50%) scale(0) rotate(0deg)";
+  animationSprite.style.opacity = "0";
+  requestAnimationFrame(() => {
+    animationSprite.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+    animationSprite.style.transform = "translate(-50%, -50%) scale(1.2) rotate(0deg)";
+    animationSprite.style.opacity = "1";
+  });
+
+  animationSprite.addEventListener("click", () => {
+    animationSprite.style.transition = "transform 0.6s ease, opacity 0.6s ease";
+    animationSprite.style.transform = "translate(-50%, -50%) scale(0) rotate(720deg)";
+    animationSprite.style.opacity = "0";
+
+    animationSprite.addEventListener("transitionend", () => {
+      animationSprite.remove();
+
+      const blook = blooks[Math.floor(Math.random()*blooks.length)];
+      const resultCard = document.createElement("div");
+      resultCard.classList.add("result-card");
+      resultCard.style.backgroundImage = `url(${img.src})`;
+
+      resultCard.innerHTML = `
+        <div style="display:flex; flex-direction:column; height:100%; justify-content:space-between; align-items:center; padding:10px; color:black; text-shadow:1px 1px 2px white;">
+          <div style="text-align:center;">
+            <h2 style="margin:0; font-size:1.6rem; font-family:'Titan One';">${blook.name}</h2>
+            <h3 style="margin:0; font-size:1.2rem; font-family:'Titan One'; color:${blook.color}; -webkit-text-stroke:1px black;">${blook.rarity}</h3>
+          </div>
+          <img src="${blook.image}" alt="${blook.name}" style="width:50%; border-radius:10px;">
+          <p style="margin:0; font-weight:bold; font-size:1.4rem;">${blook.chance}</p>
+        </div>
+      `;
+      resultsContainer.appendChild(resultCard);
+      setTimeout(()=> resultCard.classList.add("show"),50);
+
+      const hideResult = () => {
+        resultCard.classList.remove("show");
+        resultCard.classList.add("hide");
+        setTimeout(() => resultCard.remove(), 300);
+        hideOverlay();
+        openingInProgress = false;
+        btn.disabled = false;
+        document.removeEventListener("click", hideResult);
+      };
+
+      setTimeout(() => {
+        document.addEventListener("click", hideResult, { once: true });
+      }, 500);
+
+    }, { once: true });
+  }, { once: true });
+}
+</script>
+</body>
+</html>
