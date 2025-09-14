@@ -366,10 +366,10 @@
             <div class="logo-text">Scratchlet</div>
         </div>
         <div class="nav-buttons">
-            <a href="home.html" class="nav-btn">🏠 Home</a>
-            <a href="stats.html" class="nav-btn">📊 Stats</a>
-            <a href="profile.html" class="nav-btn">👤 Profile</a>
-            <a href="friends.html" class="nav-btn">👥 Friends</a>
+            <a href="https://scratchlet-official.github.io/home/" class="nav-btn">🏠 Home</a>
+            <a href="https://scratchlet-official.github.io/stats/" class="nav-btn">📊 Stats</a>
+            <a href="https://scratchlet-official.github.io/profile/" class="nav-btn">👤 Profile</a>
+            <a href="https://scratchlet-official.github.io/friends/" class="nav-btn">👥 Friends</a>
             <button class="nav-btn" onclick="logout()" style="background: rgba(255, 0, 0, 0.3); color: white;">🚪 Logout</button>
         </div>
     </div>
@@ -389,7 +389,7 @@
         <div class="card">
             <img src="https://i.postimg.cc/8Cs9nSzs/Breakfast.png" alt="Breakfast Pack">
             <h2 class="pack-name">Breakfast Pack</h2>
-            <p class="pack-price">Price: 250 coins</p>
+            <p class="pack-price">Price: 15 coins</p>
             <button class="open-btn" id="openBtn">🍳 Open</button>
         </div>
     </div>
@@ -445,7 +445,7 @@
 
         function updateUserStats(blook) {
             const userData = loadUserData();
-            userData.coins -= 250;
+            userData.coins -= 15;
             userData.breakfastPacks--;
             userData.totalPacksOpened++;
             
