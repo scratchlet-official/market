@@ -59,7 +59,7 @@
         .nav-btn {
             background: rgba(255, 255, 255, 0.9);
             color: #FF8C00;
-            padding: 10px 20px;
+            padding: 10极速飞艇 20px;
             border: none;
             border-radius: 20px;
             cursor: pointer;
@@ -68,13 +68,29 @@
             font-size: 1em;
             text-decoration: none;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 极速飞艇.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         
         .nav-btn:hover {
             background: white;
             transform: translateY(-2px);
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+        }
+        
+        .market-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .market-title {
+            font-family: "Titan One", sans-serif;
+            font-size: 3em;
+            color: #FFFFFF;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
         }
         
         .user-info {
@@ -87,25 +103,8 @@
             margin: 20px 0;
         }
         
-        .market-container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .market-title {
-            font-family: "Titan One", sans-serif;
-            font-size: 3em;
-            color: #FFFFFF;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
         .toggle-container {
-            text-align: center;
-            margin-bottom: 20px;
+            margin: 20px 0;
             font-weight: 600;
             color: white;
         }
@@ -118,33 +117,27 @@
             margin-right: 8px;
         }
         
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-        
         .card {
             background: rgba(255, 255, 255, 0.15);
             border-radius: 20px;
             box-shadow: 0 6px 15px rgba(0,0,0,0.2);
             border: 3px solid rgba(255, 255, 255, 0.3);
-            width: 100%;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
             transition: all 0.3s ease;
             cursor: pointer;
             backdrop-filter: blur(10px);
+            max-width: 300px;
+            margin: 0 auto;
         }
         
         .card:hover {
             transform: translateY(-8px);
             background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 12极速飞艇 25px rgba(0,0,0,0.3);
         }
         
         .card img {
@@ -156,10 +149,16 @@
         
         .pack-name {
             font-family: 'Titan One', cursive;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             margin: 0;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .pack-price {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1em;
+            margin: 0;
         }
         
         .open-btn {
@@ -202,7 +201,7 @@
             flex-direction: column;
             gap: 15px;
             align-items: center;
-            z-index: 2003;
+            z极速飞艇: 2003;
         }
         
         .result-card {
@@ -309,7 +308,7 @@
             border: none;
             border-radius: 15px;
             cursor: pointer;
-            font-family: 'Nunito', sans-serif;
+            font-family: '极速飞艇unito', sans-serif;
             font-weight: 700;
             font-size: 1em;
             transition: all 0.3s ease;
@@ -355,10 +354,6 @@
                 font-size: 2.2em;
             }
             
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .modal-buttons {
                 flex-direction: column;
             }
@@ -384,41 +379,18 @@
         
         <div class="user-info">
             <strong>Coins:</strong> <span id="userCoins">1000</span> • 
-            <strong>Packs Owned:</strong> <span id="packsOwned">5</span>
+            <strong>Breakfast Packs:</strong> <span id="breakfastPacks">5</span>
         </div>
         
         <div class="toggle-container">
             <label><input type="checkbox" id="instantToggle"> Instant Open</label>
         </div>
 
-        <div class="cards-grid">
-            <div class="card">
-                <img src="https://i.postimg.cc/8Cs9nSzs/Breakfast.png" alt="Breakfast Pack">
-                <h2 class="pack-name">Breakfast Pack</h2>
-                <p style="color: rgba(255,255,255,0.9); margin: 0;">Price: 250 coins</p>
-                <button class="open-btn">🍳 Open</button>
-            </div>
-            
-            <div class="card">
-                <img src="https://i.postimg.cc/8Cs9nSzs/Breakfast.png" alt="Lunch Pack">
-                <h2 class="pack-name">Lunch Pack</h2>
-                <p style="color: rgba(255,255,255,0.9); margin: 0;">Price: 500 coins</p>
-                <button class="open-btn">🍔 Open</button>
-            </div>
-            
-            <div class="card">
-                <img src="https://i.postimg.cc/8Cs9nSzs/Breakfast.png" alt="Dinner Pack">
-                <h2 class="pack-name">Dinner Pack</h2>
-                <p style="color: rgba(255,255,255,0.9); margin: 0;">Price: 750 coins</p>
-                <button class="open-btn">🍕 Open</button>
-            </div>
-            
-            <div class="card">
-                <img src="https://i.postimg.cc/8Cs9nSzs/Breakfast.png" alt="Special Pack">
-                <h2 class="pack-name">Special Pack</h2>
-                <p style="color: rgba(255,255,255,0.9); margin: 0;">Price: 1000 coins</p>
-                <button class="open-btn">🎁 Open</button>
-            </div>
+        <div class="card">
+            <img src="https://i.postimg.cc/8Cs9nSzs/Breakfast.png" alt="Breakfast Pack">
+            <h2 class="pack-name">Breakfast Pack</h2>
+            <p class="pack-price">Price: 250 coins</p>
+            <button class="open-btn" id="openBtn">🍳 Open</button>
         </div>
     </div>
 
@@ -427,7 +399,7 @@
 
     <div class="modal" id="confirmModal">
         <h2>Open Pack?</h2>
-        <p id="modalText">Want to open this pack?</p>
+        <p id="modalText">Want to open Breakfast Pack for 250 coins?</p>
         <div class="modal-buttons">
             <button class="modal-btn primary" id="yesBtn">Yes</button>
             <button class="modal-btn secondary" id="infoBtn">Info</button>
@@ -446,16 +418,43 @@
     </div>
 
     <script>
-        // Load user data
-        function loadUserData() {
-            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-            document.getElementById('userCoins').textContent = userData.coins || 1000;
-            document.getElementById('packsOwned').textContent = userData.packsOwned || 5;
+        // User data management
+        function initUserData() {
+            if (!localStorage.getItem('userData')) {
+                const defaultData = {
+                    coins: 1000,
+                    breakfastPacks: 5,
+                    unlockedBlooks: [],
+                    totalPacksOpened: 0
+                };
+                localStorage.setItem('userData', JSON.stringify(defaultData));
+            }
+            return JSON.parse(localStorage.getItem('userData'));
         }
 
-        // Save user data
+        function loadUserData() {
+            const userData = initUserData();
+            document.getElementById('userCoins').textContent = userData.coins;
+            document.getElementById('breakfastPacks').textContent = userData.breakfastPacks;
+            return userData;
+        }
+
         function saveUserData(data) {
             localStorage.setItem('userData', JSON.stringify(data));
+        }
+
+        function updateUserStats(blook) {
+            const userData = loadUserData();
+            userData.coins -= 250;
+            userData.breakfastPacks--;
+            userData.totalPacksOpened++;
+            
+            if (!userData.unlockedBlooks.includes(blook.name)) {
+                userData.unlockedBlooks.push(blook.name);
+            }
+            
+            saveUserData(userData);
+            loadUserData(); // Refresh display
         }
 
         // Logout function
@@ -467,32 +466,176 @@
             window.location.href = 'index.html';
         }
 
+        // Blooks data
+        const blooks = [
+            {name: "Toast", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"https://i.postimg.cc/NGJcDp4N/toast.webp"},
+            {name: "Cereal", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"https://i.postimg.cc/HsFCDnFX/cereal.webp"},
+            {name: "Yogurt", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"https://i.postimg.cc/7hWrLZhv/yogurt.webp"},
+            {name: "Breakfast Combo", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"https://i.postimg.cc/zfrZvMzf/breakfastcombo.webp"},
+            {name: "Orange Juice", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"https://i.postimg.cc/vH4dNf2G/orangejuice.webp"},
+            {name: "Milk", rarity:"Uncommon", color:"limegreen", chance: "12.5%", image:"极速飞艇://i.postimg.cc/0ym18xq3/milk.webp"},
+            {name: "Waffle", rarity:"Rare", color:"blue", chance: "9%", image:"https://i.postimg.cc/MGmkQDHm/waffle.webp"},
+            {name: "Pancakes", rarity:"Rare", color:"blue", chance: "9%", image:"https://i.postimg.cc/cC6PPGmF/pancakes.webp"},
+            {name: "French Toast", rarity:"Epic", color:"red", chance: "5%", image:"https://i.postimg.cc/QCPv3YYh/frenchtoast.webp"},
+            {name: "Pizza", rarity:"Epic", color:"red", chance: "2%", image:"https://i.postimg.cc/TwdzqDWM/pizza.webp"},
+            {name: "Sandwich", rarity:"Legendary", color:"orange", chance: "0.5%", image:"https://i.postimg.cc/V6K37kjS/sandwich.webp"}
+        ];
+
+        let currentCard = null;
+        let openingInProgress = false;
+
+        // Modal functionality
+        const resultsContainer = document.getElementById("resultsContainer");
+        const modal = document.getElementById("confirmModal");
+        const yesBtn = document.getElementById("yesBtn");
+        const noBtn = document.getElementById("noBtn");
+        const infoBtn = document.getElementById("infoBtn");
+        const overlay = document.getElementById("overlay");
+        const instantToggle = document.getElementById("instantToggle");
+        const infoModal = document.getElementById("infoModal");
+        const rarityList = document.getElementById("rarityList");
+        const openBtn = document.getElementById("openBtn");
+
+        function showOverlay() { overlay.classList.add("active"); }
+        function hideOverlay() { overlay.classList.remove("active"); }
+
+        openBtn.addEventListener("click", () => {
+            if(openingInProgress) return;
+            
+            const userData = loadUserData();
+            if (userData.coins < 250) {
+                alert("Not enough coins! You need 250 coins to open a pack.");
+                return;
+            }
+            
+            if (userData.breakfastPacks <= 0) {
+                alert("No packs left! Buy more packs first.");
+                return;
+            }
+
+            if(instantToggle.checked){
+                openPack();
+            } else {
+                modal.style.display = "flex";
+                showOverlay();
+            }
+        });
+
+        yesBtn.addEventListener("click", () => {
+            if(!currentCard) return;
+            modal.style.display = "none";
+            openPack();
+        });
+
+        noBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+            hideOverlay();
+        });
+
+        infoBtn.addEventListener("click", () => {
+            rarityList.innerHTML = "";
+            blooks.forEach(b => {
+                const li = document.createElement("li");
+                li.style.color = b.color;
+                li.style.fontWeight = "bold";
+                li.style.margin = "8px 0";
+                li.textContent = `${b.name} — ${b.chance}`;
+                rarityList.appendChild(li);
+            });
+            modal.style.display = "none";
+            infoModal.style.display = "flex";
+        });
+
+        function closeInfoModal() { 
+            infoModal.style.display = "none"; 
+            modal.style.display = "flex"; 
+        }
+
+        // Open pack function
+        function openPack() {
+            const openBtn = document.getElementById("openBtn");
+            openingInProgress = true;
+            openBtn.disabled = true;
+            showOverlay();
+
+            const previous = resultsContainer.querySelector(".result-card");
+            if(previous) previous.remove();
+
+            const blook = blooks[Math.floor(Math.random() * blooks.length)];
+            
+            // Update user stats
+            updateUserStats(blook);
+
+            if(instantToggle.checked){
+                setTimeout(() => { createResultCard(blook, openBtn); }, 100);
+                return;
+            }
+
+            const animationSprite = document.createElement("div");
+            animationSprite.classList.add("open-animation");
+            animationSprite.style.backgroundImage = `url(https://i.postimg.cc/8Cs9nSzs/Breakfast.png)`;
+            document.body.appendChild(animationSprite);
+
+            requestAnimationFrame(() => {
+                animationSprite.style.transition = "transform 0.4s ease-out, opacity 0.4s ease-out";
+                animationSprite.style.transform = "translate(-50%,-50%) scale(1.2) rotate(10deg)";
+                animationSprite.style.opacity = "1";
+            });
+
+            let autoOpenTimeout = setTimeout(() => animationSprite.click(), 3000);
+
+            animationSprite.addEventListener("click", () => {
+                clearTimeout(autoOpenTimeout);
+                animationSprite.style.transition = "transform 0.6s ease-in-out, opacity 0.6s ease-in-out";
+                animationSprite.style.transform = "translate(-50%,-50%) scale(0) rotate(720deg)";
+                animationSprite.style.opacity = "0";
+
+                animationSprite.addEventListener("transitionend", () => {
+                    animationSprite.remove();
+                    createResultCard(blook, openBtn);
+                }, {once: true});
+            }, {once: true});
+        }
+
+        // Create result card
+        function createResultCard(blook, btn) {
+            const resultCard = document.createElement("div");
+            resultCard.classList.add("result-card");
+            resultCard.style.backgroundImage = `url(https://i.postimg.cc/jdK9YNSp/download.webp)`;
+            resultCard.innerHTML = `
+                <div style="display:flex; flex-direction:column; height:100%; justify-content:space-between; align-items:center; padding:10px; color:black; text-shadow:1px 1px 2px white;">
+                    <div style="text-align:center;">
+                        <h2 style="margin:0; font-size:1.6rem; font-family:'Titan One';">${blook.name}</h2>
+                        <h3 style="margin:0; font-size:1.2rem; font-family:'Titan One'; color:${blook.color}; -webkit-text-stroke:1px black;">${blook.rarity}</h3>
+                    </div>
+                    <img src="${blook.image}" alt="${blook.name}" style="width:50%; border-radius:10px;">
+                    <p style="margin:0; font-weight:bold; font-size:1.4rem;">${blook.chance}</p>
+                </div>
+            `;
+            resultsContainer.appendChild(resultCard);
+
+            setTimeout(() => {
+                resultCard.classList.add("show");
+                
+                const hideResult = () => {
+                    resultCard.classList.remove("show");
+                    resultCard.classList.add("hide");
+                    setTimeout(() => {
+                        resultCard.remove();
+                    }, 300);
+                    hideOverlay();
+                    openingInProgress = false;
+                    btn.disabled = false;
+                    document.removeEventListener("click", hideResult);
+                };
+                setTimeout(() => { document.addEventListener("click", hideResult, {once: true}); }, 500);
+            }, 100);
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             loadUserData();
-            
-            // Add event listeners to all open buttons
-            document.querySelectorAll('.open-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const card = this.closest('.card');
-                    const packName = card.querySelector('.pack-name').textContent;
-                    const price = parseInt(card.querySelector('p').textContent.split(': ')[1]);
-                    
-                    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-                    if (userData.coins >= price) {
-                        document.getElementById('modalText').textContent = `Open "${packName}" for ${price} coins?`;
-                        document.getElementById('confirmModal').style.display = 'flex';
-                        document.getElementById('overlay').classList.add('active');
-                    } else {
-                        alert('Not enough coins!');
-                    }
-                });
-            });
         });
-
-        // ... (rest of your existing JavaScript code for pack opening functionality)
-        // Note: You'll need to integrate your existing pack opening JavaScript here
-        // including the blooks array, openPack function, createConfettiAndSparkles, etc.
     </script>
 </body>
 </html>
