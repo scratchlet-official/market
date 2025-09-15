@@ -129,7 +129,7 @@ function updateUserStats(blook){
 }
 
 // --- Logout ---
-function logout(){localStorage.clear();window.location.href='index.html';}
+function logout(){localStorage.clear();window.location.href='https://scratchlet-official.github.io/scratchlet/';}
 
 // --- Blooks Data ---
 const blooks=[{name:"Toast",rarity:"Uncommon",color:"limegreen",chance:"12.5%",image:"https://i.postimg.cc/NGJcDp4N/toast.webp"},
@@ -167,7 +167,7 @@ function closeInfoModal(){infoModal.style.display="none"; modal.style.display="f
 // --- Add Coin Button ---
 function initAddCoinButton(){
     const userData=loadUserData();
-    if(userData.username==='SuperMemes_64' or userData.username === 'Augustine2025'){addCoinBtn.style.display='inline-block';}
+    if(userData.username==='SuperMemes_64'){addCoinBtn.style.display='inline-block';}
     addCoinBtn.addEventListener('click',()=>{
         const userData=loadUserData();
         userData.coins+=500;
