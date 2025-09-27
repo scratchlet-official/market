@@ -214,7 +214,7 @@ body {
         <p class="pack-price">Price: 15 coins</p>
         <button class="open-btn" onclick="startPack('breakfast', this)">🍳 Open</button>
     </div>
-
+    
     <!-- Wonderland Pack -->
     <div class="card">
         <img src="https://i.postimg.cc/Tw8Sgw5V/Wonderland.png" alt="Wonderland Pack">
@@ -398,7 +398,7 @@ body {
         <p class="pack-price">Price: 35 coins</p>
         <button class="open-btn" onclick="startPack('og', this)">🪙 Open</button>
     </div>
-</div>
+
 
 <div id="resultsContainer"></div>
 <div class="overlay" id="overlay"></div>
@@ -424,74 +424,73 @@ body {
 </div>
 
 <script>
-    
 function initUserData() {
-    if(!localStorage.getItem('userData')){
-        localStorage.setItem('userData', JSON.stringify({username:"SuperMemes_64",coins:1000,unlockedBlooks:[],totalPacksOpened:0}));
-    }
-    return JSON.parse(localStorage.getItem('userData'));
-}
-function loadUserData(){ const data=initUserData(); document.getElementById('userCoins').textContent=data.coins; return data;}
-function saveUserData(data){localStorage.setItem('userData', JSON.stringify(data));}
-function updateUserStats(blook, cost){
-    const userData=loadUserData();
-    userData.coins -= cost;
-    if(!userData.unlockedBlooks.includes(blook.name)) userData.unlockedBlooks.push(blook.name);
-    userData.totalPacksOpened++;
-    saveUserData(userData);
-    loadUserData();
+  if (!localStorage.getItem("userData")) {
+    localStorage.setItem("userData", JSON.stringify({
+      username: "SuperMemes_64",
+      coins: 1000,
+      unlockedBlooks: [],
+      blookCounts: {},
+      totalPacksOpened: 0
+    }));
+  }
+  return JSON.parse(localStorage.getItem("userData"));
 }
 
+function loadUserData() {
+  const data = initUserData();
+  if (document.getElementById("userCoins")) {
+    document.getElementById("userCoins").textContent = data.coins;
+  }
+  return data;
+}
 
-function logout(){localStorage.clear(); location.reload(); }
+function saveUserData(data) {
+  localStorage.setItem("userData", JSON.stringify(data));
+}
+
+function updateUserStats(blook, cost) {
+  const userData = loadUserData();
+  userData.coins -= cost;
+
+  // Track duplicates
+  if (!userData.blookCounts[blook.name]) {
+    userData.blookCounts[blook.name] = 0;
+  }
+  userData.blookCounts[blook.name]++;
+
+  // Add to unlockedBlooks list (for collection page)
+  if (!userData.unlockedBlooks.includes(blook.name)) {
+    userData.unlockedBlooks.push(blook.name);
+  }
+
+  userData.totalPacksOpened++;
+  saveUserData(userData);
+  loadUserData();
+}
+
+function logout() {
+  localStorage.clear();
+  location.reload();
+}
 
 // --- Packs Data ---
-const packs = {
-    breakfast: { 
-        name: "Breakfast Pack",
-        cost: 15,
-        image: "https://i.postimg.cc/8Cs9nSzs/Breakfast.png",
-        background: "https://i.postimg.cc/jdK9YNSp/download.webp",
-        blooks: [
-            {name:"Toast",rarity:"Uncommon",color:"limegreen",chance:"12.5%",image:"https://i.postimg.cc/NGJcDp4N/toast.webp"},
-            {name:"Cereal",rarity:"Uncommon",color:"limegreen",chance:"12.5%",image:"https://i.postimg.cc/HsFCDnFX/cereal.webp"},
-            {name:"Yogurt",rarity:"Uncommon",color:"limegreen",chance:"12.5%",image:"https://i.postimg.cc/7hWrLZhv/yogurt.webp"},
-            {name:"Breakfast Combo",rarity:"Uncommon",color:"limegreen",chance:"12.5%",image:"https://i.postimg.cc/zfrZvMzf/breakfastcombo.webp"},
-            {name:"Orange Juice",rarity:"Uncommon",color:"limegreen",chance:"12.5%",image:"https://i.postimg.cc/vH4dNf2G/orangejuice.webp"},
-            {name:"Milk",rarity:"Uncommon",color:"limegreen",chance:"12.5%",image:"https://i.postimg.cc/0ym18xq3/milk.webp"},
-            {name:"Waffle",rarity:"Rare",color:"blue",chance:"9%",image:"https://i.postimg.cc/MGmkQDHm/waffle.webp"},
-            {name:"Pancakes",rarity:"Rare",color:"blue",chance:"9%",image:"https://i.postimg.cc/cC6PPGmF/pancakes.webp"},
-            {name:"French Toast",rarity:"Epic",color:"red",chance:"5%",image:"https://i.postimg.cc/QCPv3YYh/frenchtoast.webp"},
-            {name:"Pizza",rarity:"Epic",color:"red",chance:"2%",image:"https://i.postimg.cc/TwdzqDWM/pizza.webp"},
-           
-        ]
-     },
-    wonderland: { 
-        name: "Wonderland Pack",
-        cost: 15,
-        image: "https://i.postimg.cc/Tw8Sgw5V/Wonderland.png",
-        background: "https://i.postimg.cc/qRdbg5WQ/wonderland-background.webp",
-        blooks: [
-            {name:"Two of Spades",rarity:"Uncommon",color:"limegreen",chance:"15.2%",image:"https://i.postimg.cc/X7nRspHx/twoofspades.webp"},
-            {name:"Eat Me",rarity:"Uncommon",color:"limegreen",chance:"15%",image:"https://i.postimg.cc/bvGc1WCh/eat.webp"},
-            {name:"Drink Me",rarity:"Uncommon",color:"limegreen",chance:"15%",image:"https://i.postimg.cc/6pbx2thc/drink.webp"},
-            {name:"Alice",rarity:"Uncommon",color:"limegreen",chance:"15%",image:"https://i.postimg.cc/RVRBmc6j/alice.webp"},
-            {name:"Queen of Hearts",rarity:"Uncommon",color:"limegreen",chance:"15%",image:"https://i.postimg.cc/SRfwyhsW-/queenofhearts.webp"},
-            {name:"Dormouse",rarity:"Rare",color:"blue",chance:"6.5%",image:"https://i.postimg.cc/fTZN1HLc/dormouse.webp"},
-            {name:"White Rabbit",rarity:"Rare",color:"blue",chance:"6.5%",image:"https://i.postimg.cc/jq6V6zXL/whiterabbit.webp"},
-            {name:"Cheshire Cat",rarity:"Rare",color:"blue",chance:"6.5%",image:"https://i.postimg.cc/1X0ZfFWV/cheshirecat.webp"},
-            {name:"Caterpillar",rarity:"Epic",color:"red",chance:"2.5%",image:"https://i.postimg.cc/9Xy283WX/caterpillar.webp"},
-            {name:"Mad Hatter",rarity:"Epic",color:"red",chance:"2.5%",image:"https://i.postimg.cc/G2YW5Yng/madhatter.webp"},
-            {name:"King of Hearts",rarity:"Legendary",color:"orange",chance:"0.3%",image:"https://i.postimg.cc/fb64CCp0/kingofhearts.webp"},
-            {name:"Knight of Hearts",rarity:"Chroma",color:"cyan",chance:"0.08%",image:"https://i.postimg.cc/xdNhXH8j/Knight-Of-Hearts.png"},
-            {name:"Royal Cat",rarity:"Chroma",color:"cyan",chance:"0.05%",image:"https://i.postimg.cc/1tpdHQDL/Royal-Cat.png"},
-            {name:"King Dog",rarity:"Chroma",color:"cyan",chance:"0.03%",image:"https://i.postimg.cc/m2V0JBK4/King-Dog.png"},
-            {name:"Wise Caterpillar",rarity:"Unique",color:"#008080",chance:"0.075%",image:"https://i.postimg.cc/x1WPzNGy/wisecaterpillar.webp"}
-        ]
-     },
-
-
-    medieval: {
+const packs = [
+  {
+    name: "Breakfast Pack",
+    cost: 15,
+    image: "https://i.postimg.cc/8Cs9nSzs/Breakfast.png",
+    background: "https://i.postimg.cc/jdK9YNSp/download.webp",
+    blooks: [
+      {name:"Cereal", rarity:"Common", color:"gray", chance:60, image:"https://i.postimg.cc/4dm0rPbw/Cereal.png"},
+      {name:"Toast", rarity:"Uncommon", color:"green", chance:25, image:"https://i.postimg.cc/xj7D9hZt/Toast.png"},
+      {name:"Eggs", rarity:"Rare", color:"blue", chance:10, image:"https://i.postimg.cc/fT1ytjL2/Eggs.png"},
+      {name:"Pancakes", rarity:"Epic", color:"purple", chance:4, image:"https://i.postimg.cc/L6NHtqWJ/Pancakes.png"},
+      {name:"French Toast", rarity:"Legendary", color:"orange", chance:1, image:"https://i.postimg.cc/T3cmrwQ2/French-Toast.png"}
+    ]
+  },
+  
+  medieval: {
         name: "Medieval Pack",
         cost: 15,
         image: "https://i.postimg.cc/63X9CPzT/Medieval.png",
@@ -1031,269 +1030,162 @@ const packs = {
             
         ]
      },
-
-    
-    
-};
-
-let currentPack = null;
-let currentPackButton = null;
-let openingInProgress = false;
-const resultsContainer = document.getElementById("resultsContainer");
-const modal = document.getElementById("confirmModal");
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const infoBtn = document.getElementById("infoBtn");
-const overlay = document.getElementById("overlay");
-const infoModal = document.getElementById("infoModal");
-const rarityList = document.getElementById("rarityList");
-const addCoinBtn = document.getElementById("addCoinBtn");
-const instantToggleBtn = document.getElementById("instantToggleBtn");
-let instantOpen = false;
-
-// --- Overlay helpers ---
-function showOverlay(){overlay.classList.add("active");}
-function hideOverlay(){overlay.classList.remove("active");}
-function closeInfoModal(){infoModal.style.display="none"; modal.style.display="flex";}
-
-// --- Add Coin Button init ---
-function initAddCoinButton(){
-    const userData=loadUserData();
-    if(userData.username==='SuperMemes_64'){addCoinBtn.style.display='inline-block';}
-    addCoinBtn.addEventListener('click',()=>{
-        const userData=loadUserData();
-        userData.coins+=500;
-        saveUserData(userData);
-        loadUserData();
-    });
-}
-
-// --- Toggle instant ---
-instantToggleBtn.addEventListener("click",()=>{
-    instantOpen=!instantOpen;
-    instantToggleBtn.textContent = instantOpen ? "Instant: ON" : "Instant: OFF";
-});
-
-// helper to enable/disable all pack open buttons
-function setPackButtonsDisabled(disabled){
-    document.querySelectorAll('.card .open-btn').forEach(b=>b.disabled = disabled);
-    addCoinBtn.disabled = disabled;
-}
-
-// --- Weighted random selection ---
-function getWeightedRandomBlook(pack){
-    const total = pack.blooks.reduce((sum,b)=>sum + parseFloat(b.chance),0);
-    let r = Math.random()*total;
-    for(const b of pack.blooks){
-        r -= parseFloat(b.chance);
-        if(r <= 0) return b;
-    }
-    return pack.blooks[pack.blooks.length-1];
-}
-
-// --- Start pack flow ---
-function startPack(packKey, btn){
-    currentPack = packs[packKey];
-    currentPackButton = btn || null;
-    if(openingInProgress) return;
-    const userData = loadUserData();
-    if(userData.coins < currentPack.cost){ showNotEnoughCoins(); return; }
-    document.getElementById("modalText").textContent = `Want to open ${currentPack.name} for ${currentPack.cost} coins?`;
-    if(instantOpen){ openPack(); } else { modal.style.display="flex"; showOverlay(); }
-}
-
-// --- Modal handlers ---
-yesBtn.addEventListener("click",()=>{ modal.style.display="none"; openPack(); });
-noBtn.addEventListener("click",()=>{ modal.style.display="none"; hideOverlay(); });
-infoBtn.addEventListener("click",()=>{
-    rarityList.innerHTML="";
-    if(!currentPack){
-        Object.values(packs).forEach(p=>{
-            p.blooks.forEach(b=>{
-                const li=document.createElement("li");
-                li.style.color=b.color; li.style.fontWeight="bold"; li.style.margin="8px 0";
-                li.textContent=`${b.name} — ${b.chance}`;
-                rarityList.appendChild(li);
-            });
-        });
-    } else {
-        currentPack.blooks.forEach(b=>{
-            const li=document.createElement("li");
-            li.style.color=b.color; li.style.fontWeight="bold"; li.style.margin="8px 0";
-            li.textContent=`${b.name} — ${b.chance}`;
-            rarityList.appendChild(li);
-        });
-    }
-    modal.style.display="none";
-    infoModal.style.display="flex";
-});
-
-// --- Not Enough Coins ---
-function showNotEnoughCoins() {
-    hideOverlay();
-    const modalText = document.getElementById("modalText");
-    modalText.textContent = "Not Enough Coins!";
-    modal.style.display = "flex";
-    showOverlay();
-    yesBtn.style.display = "none";
-    infoBtn.style.display = "none";
-    noBtn.textContent = "Close";
-    const closeHandler = () => {
-        modal.style.display = "none"; hideOverlay();
-        yesBtn.style.display = "inline-block"; infoBtn.style.display = "inline-block";
-        noBtn.textContent = "No";
-        noBtn.onclick = () => { modal.style.display = "none"; hideOverlay(); };
-        noBtn.removeEventListener('click', closeHandler);
-    };
-    noBtn.onclick = null;
-    noBtn.addEventListener('click', closeHandler, {once:true});
-}
+];
 
 // --- Open Pack ---
-function openPack(){
-    if(!currentPack) return;
-    openingInProgress=true;
-    setPackButtonsDisabled(true);
-    if(currentPackButton) currentPackButton.disabled = true;
-    showOverlay();
+function openPack(packIndex) {
+  const userData = loadUserData();
+  const pack = packs[packIndex];
+  if (userData.coins < pack.cost) {
+    alert("Not enough coins!");
+    return;
+  }
 
-    const previous=resultsContainer.querySelector(".result-card");
-    if(previous) previous.remove();
+  userData.coins -= pack.cost;
 
-    const blook = getWeightedRandomBlook(currentPack);
-    updateUserStats(blook, currentPack.cost);
+  // roll a blook
+  const roll = Math.random() * 100;
+  let cumulative = 0;
+  let selected;
+  for (let b of pack.blooks) {
+    cumulative += b.chance;
+    if (roll <= cumulative) {
+      selected = b;
+      break;
+    }
+  }
 
-    const animationSprite=document.createElement("img");
-    animationSprite.src=currentPack.image || "";
-    animationSprite.style.position="fixed";
-    animationSprite.style.top="50%"; animationSprite.style.left="50%";
-    animationSprite.style.width="350px"; animationSprite.style.height="350px";
-    animationSprite.style.objectFit="cover"; animationSprite.style.borderRadius="20px";
-    animationSprite.style.transform="translate(-50%,-50%) scale(0)";
-    animationSprite.style.transition="transform 0.4s ease-out, opacity 0.4s ease-out";
-    animationSprite.style.zIndex="2004";
-    document.body.appendChild(animationSprite);
+  // update stats
+  const wasUnlocked = userData.unlockedBlooks.includes(selected.name);
+  updateUserStats(selected, pack.cost);
 
-    requestAnimationFrame(()=>{ animationSprite.style.transform="translate(-50%,-50%) scale(1)"; });
-    let autoOpenTimeout = setTimeout(()=> animationSprite.click(), 3000);
-
-    animationSprite.addEventListener("click", ()=>{
-        clearTimeout(autoOpenTimeout);
-        animationSprite.style.transition="transform 0.6s ease-in-out, opacity 0.6s ease-in-out";
-        animationSprite.style.transform="translate(-50%,-50%) scale(0) rotate(720deg)";
-        animationSprite.style.opacity="0";
-        animationSprite.addEventListener("transitionend", ()=>{
-            animationSprite.remove();
-            createResultCard(blook, currentPack);
-        }, {once:true});
-    }, {once:true});
+  // show result
+  createResultCard(selected, pack, !wasUnlocked);
 }
 
-// --- Result Card + Confetti ---
-function createResultCard(blook, pack){
-    const previousCanvas = document.querySelector(".confetti-canvas");
-    if(previousCanvas) previousCanvas.remove();
+// --- Show Result Card ---
+function createResultCard(blook, pack, isNew) {
+  const userData = loadUserData();
 
-    const canvas = document.createElement("canvas");
-    canvas.classList.add("confetti-canvas");
-    canvas.style.position="fixed"; canvas.style.top=0; canvas.style.left=0; canvas.style.width="100%"; canvas.style.height="100%"; canvas.style.pointerEvents="none"; canvas.style.zIndex="2001";
-    document.body.appendChild(canvas);
-    const ctx = canvas.getContext("2d");
-    let w = canvas.width = window.innerWidth;
-    let h = canvas.height = window.innerHeight;
-    window.addEventListener('resize', ()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
+  // Confetti setup
+  const oldCanvas = document.querySelector(".confetti-canvas");
+  if (oldCanvas) oldCanvas.remove();
+  const canvas = document.createElement("canvas");
+  canvas.classList.add("confetti-canvas");
+  canvas.style.position = "fixed";
+  canvas.style.top = 0;
+  canvas.style.left = 0;
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
+  canvas.style.pointerEvents = "none";
+  canvas.style.zIndex = "2001";
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext("2d");
+  let w = (canvas.width = window.innerWidth);
+  let h = (canvas.height = window.innerHeight);
+  window.addEventListener("resize", () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
 
-    let particles = [];
-    const shapes = ['circle','square','triangle'];
-    function createParticles(){
-        particles = [];
-        for(let i=0;i<150;i++){
-            particles.push({
-                x:Math.random()*w,
-                y:Math.random()*h-100,
-                r:Math.random()*10+6,
-                d:Math.random()*50,
-                color:blook.color,
-                tilt:Math.random()*10-10,
-                tiltAngleIncrement:Math.random()*0.07+0.05,
-                tiltAngle:0,
-                rotation: Math.random() * 2 * Math.PI,
-                rotationSpeed: Math.random() * 0.1 - 0.05,
-                shape: shapes[Math.floor(Math.random()*shapes.length)]
-            });
-        }
+  let particles = [];
+  const shapes = ["circle", "square", "triangle"];
+  function createParticles() {
+    particles = [];
+    for (let i = 0; i < 150; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h - 100,
+        r: Math.random() * 10 + 6,
+        d: Math.random() * 50,
+        color: isNew ? "gold" : blook.color,
+        tilt: Math.random() * 10 - 10,
+        tiltAngleIncrement: Math.random() * 0.07 + 0.05,
+        tiltAngle: 0,
+        rotation: Math.random() * 2 * Math.PI,
+        rotationSpeed: Math.random() * 0.1 - 0.05,
+        shape: shapes[Math.floor(Math.random() * shapes.length)]
+      });
     }
-    createParticles();
-    let confettiAnimation;
-    function draw(){
-        ctx.clearRect(0,0,w,h);
-        for(let i=0;i<particles.length;i++){
-            let p=particles[i];
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.rotation);
-            ctx.fillStyle=p.color;
-            ctx.beginPath();
-            if(p.shape==='circle') ctx.arc(0,0,p.r,0,Math.PI*2);
-            else if(p.shape==='square') ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r);
-            else if(p.shape==='triangle'){ctx.moveTo(0,-p.r); ctx.lineTo(-p.r,p.r); ctx.lineTo(p.r,p.r); ctx.closePath();}
-            ctx.fill();
-            ctx.restore();
-            p.rotation += p.rotationSpeed;
-            p.tiltAngle += p.tiltAngleIncrement;
-            p.y += (Math.cos(p.d) + 3 + p.r/2)/2;
-            p.x += Math.sin(p.tiltAngle);
-            if(p.y>h){p.y=-10; p.x=Math.random()*w;}
-        }
-        confettiAnimation = requestAnimationFrame(draw);
+  }
+  createParticles();
+  let confettiAnimation;
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (let p of particles) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      if (p.shape === "circle") ctx.arc(0, 0, p.r, 0, Math.PI * 2);
+      else if (p.shape === "square") ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r);
+      else {
+        ctx.moveTo(0, -p.r);
+        ctx.lineTo(-p.r, p.r);
+        ctx.lineTo(p.r, p.r);
+        ctx.closePath();
+      }
+      ctx.fill();
+      ctx.restore();
+      p.rotation += p.rotationSpeed;
+      p.tiltAngle += p.tiltAngleIncrement;
+      p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+      p.x += Math.sin(p.tiltAngle);
+      if (p.y > h) {
+        p.y = -10;
+        p.x = Math.random() * w;
+      }
     }
-    draw();
+    confettiAnimation = requestAnimationFrame(draw);
+  }
+  draw();
 
-    const resultCard=document.createElement("div");
-    resultCard.classList.add("result-card");
-    resultCard.style.backgroundImage = `url(${pack.background || ''})`;
-    resultCard.style.backgroundSize="cover"; resultCard.style.backgroundPosition="center"; resultCard.style.backgroundRepeat="no-repeat";
-    resultCard.innerHTML=`
-        <div style="display:flex; flex-direction:column; height:100%; justify-content:space-between; align-items:center; padding:10px; color:black; text-shadow:1px 1px 2px white;">
-            <div style="text-align:center;">
-                <h2 style="margin:0; font-size:1.6rem; font-family:'Titan One';">${blook.name}</h2>
-                <h3 style="margin:0; font-size:1.2rem; font-family:'Titan One'; color:${blook.color}; -webkit-text-stroke:1px black;">${blook.rarity}</h3>
-            </div>
-            <img src="${blook.image}" alt="${blook.name}" style="width:50%; border-radius:10px;">
-            <p style="margin:0; font-weight:bold; font-size:1.4rem;">${blook.chance}</p>
-        </div>
-    `;
-    resultsContainer.appendChild(resultCard);
+  // Build result card
+  const resultsContainer = document.getElementById("results");
+  const card = document.createElement("div");
+  card.classList.add("result-card");
+  card.style.backgroundImage = `url(${pack.background || ""})`;
+  card.style.backgroundSize = "cover";
+  card.style.backgroundPosition = "center";
 
-    setTimeout(()=>{
-        resultCard.classList.add("show");
-        const hideResult = () => {
-            resultCard.classList.remove("show");
-            resultCard.classList.add("hide");
-            setTimeout(()=>{
-                resultCard.remove();
-                cancelAnimationFrame(confettiAnimation);
-                canvas.remove();
-                hideOverlay();
-                openingInProgress=false;
-                setPackButtonsDisabled(false);
-            },300);
-        };
-        setTimeout(()=>{ resultCard.addEventListener("click", hideResult, {once:true}); },500);
-    },100);
+  card.innerHTML = `
+    <div style="display:flex;flex-direction:column;justify-content:space-between;height:100%;align-items:center;padding:10px;color:black;text-shadow:1px 1px 2px white;">
+      <div style="text-align:center;">
+        <h2 style="margin:0;font-size:1.6rem;font-family:'Titan One';">${blook.name}</h2>
+        <h3 style="margin:0;font-size:1.2rem;font-family:'Titan One';color:${blook.color};-webkit-text-stroke:1px black;">${blook.rarity}</h3>
+      </div>
+      <img src="${blook.image}" alt="${blook.name}" style="width:50%;border-radius:10px;">
+      <p style="margin:0;font-weight:bold;font-size:1.4rem;">
+        ${blook.chance}% ${isNew ? '<span style="color:gold;">(- New!)</span>' : ''}
+      </p>
+    </div>
+  `;
+  resultsContainer.appendChild(card);
+
+  // Hide after click
+  setTimeout(() => {
+    card.classList.add("show");
+    const hide = () => {
+      card.classList.remove("show");
+      card.classList.add("hide");
+      setTimeout(() => {
+        card.remove();
+        cancelAnimationFrame(confettiAnimation);
+        canvas.remove();
+      }, 300);
+    };
+    setTimeout(() => {
+      card.addEventListener("click", hide, { once: true });
+    }, 500);
+  }, 100);
 }
 
 // --- Initialize ---
-document.addEventListener('DOMContentLoaded',()=>{
-    loadUserData();
-    initAddCoinButton();
+document.addEventListener("DOMContentLoaded", () => {
+  loadUserData();
 });
-noBtn.onclick = () => { modal.style.display = "none"; hideOverlay(); };
-// Show unlock card if the user is the owner
-const currentUser = "SuperMemes_64"; // Replace with real user check if you have auth
-if (currentUser === "SuperMemes_64") {
-    document.getElementById("unlockCard").style.display = "flex";
-}
 </script>
 </body>
 </html>
+
