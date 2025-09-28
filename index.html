@@ -422,28 +422,55 @@ body {
 <div class="footer">
 <p>Scratchlet © 2024 • The Ultimate Blooket Remix Experience</p>
 </div>
-
 <script>
-    
 function initUserData() {
-    if(!localStorage.getItem('userData')){
-        localStorage.setItem('userData', JSON.stringify({username:"SuperMemes_64",coins:1000,unlockedBlooks:[],totalPacksOpened:0}));
+    if (!localStorage.getItem('userData')) {
+        localStorage.setItem('userData', JSON.stringify({
+            username: "SuperMemes_64",
+            coins: 1000,
+            unlockedBlooks: [],
+            blookCounts: {},
+            totalPacksOpened: 0
+        }));
     }
     return JSON.parse(localStorage.getItem('userData'));
 }
-function loadUserData(){ const data=initUserData(); document.getElementById('userCoins').textContent=data.coins; return data;}
-function saveUserData(data){localStorage.setItem('userData', JSON.stringify(data));}
-function updateUserStats(blook, cost){
-    const userData=loadUserData();
+
+function loadUserData() {
+    const data = initUserData();
+    document.getElementById('userCoins').textContent = data.coins;
+    return data;
+}
+
+function saveUserData(data) {
+    localStorage.setItem('userData', JSON.stringify(data));
+}
+
+function updateUserStats(blook, cost) {
+    const userData = loadUserData();
     userData.coins -= cost;
-    if(!userData.unlockedBlooks.includes(blook.name)) userData.unlockedBlooks.push(blook.name);
-    userData.totalPacksOpened++;
+
+    // Ensure blookCounts exists
+    if (!userData.blookCounts) userData.blookCounts = {};
+
+    // Track unlocked blooks + counts
+    if (!userData.unlockedBlooks.includes(blook.name)) {
+        userData.unlockedBlooks.push(blook.name);
+        userData.blookCounts[blook.name] = 1;
+    } else {
+        userData.blookCounts[blook.name] = (userData.blookCounts[blook.name] || 1) + 1;
+    }
+
+    userData.totalPacksOpened = (userData.totalPacksOpened || 0) + 1;
+
     saveUserData(userData);
     loadUserData();
 }
 
-
-function logout(){localStorage.clear(); location.reload(); }
+function logout() {
+    localStorage.clear();
+    location.reload();
+}
 
 // --- Packs Data ---
 const packs = {
@@ -463,10 +490,9 @@ const packs = {
             {name:"Pancakes",rarity:"Rare",color:"blue",chance:"9%",image:"https://i.postimg.cc/cC6PPGmF/pancakes.webp"},
             {name:"French Toast",rarity:"Epic",color:"red",chance:"5%",image:"https://i.postimg.cc/QCPv3YYh/frenchtoast.webp"},
             {name:"Pizza",rarity:"Epic",color:"red",chance:"2%",image:"https://i.postimg.cc/TwdzqDWM/pizza.webp"},
-           
         ]
      },
-    wonderland: { 
+         wonderland: { 
         name: "Wonderland Pack",
         cost: 15,
         image: "https://i.postimg.cc/Tw8Sgw5V/Wonderland.png",
@@ -1033,7 +1059,7 @@ const packs = {
      },
 
     
-    
+   
 };
 
 let currentPack = null;
