@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -389,6 +390,14 @@ body {
         <h2 class="pack-name">Scratch Pack</h2>
         <p class="pack-price">Price: 30 coins</p>
         <button class="open-btn" onclick="startPack('scratch', this)">😺 Open</button>
+    </div>
+
+    <!--Video Game Pack -->
+    <div class="card">
+        <img src="https://i.postimg.cc/Y9YZNpm2/Video-Game.png" alt="Video Game Pack">
+        <h2 class="pack-name">Video Game Pack</h2>
+        <p class="pack-price">Price: 30 coins</p>
+        <button class="open-btn" onclick="startPack('videogame', this)">🎮 Open</button>
     </div>
 
     <!--OG Pack -->
@@ -1055,6 +1064,30 @@ const packs = {
             
             
             
+        ]
+     },
+
+    videogame: { 
+        name: "Video Game Pack",
+        cost: 30,
+        image: "https://i.postimg.cc/Y9YZNpm2/Video-Game.png",
+        background: "https://i.postimg.cc/N0YHGDkv/Video-Game-Background.png",
+        blooks: [
+            {name:"Sans",rarity:"Uncommon",color:"limegreen",chance:"16%",image:"https://i.postimg.cc/C1kXCFfg/Sans.png"},
+            {name:"Bacon Hair",rarity:"Uncommon",color:"limegreen",chance:"16%",image:"https://i.postimg.cc/HxXR0p7D/Bacon-Hair.png"},
+            {name:"Pokeball", rarity:"Uncommon",color:"limegreen",chance:"16%",image:"https://i.postimg.cc/s2tbZB1D/Pokeball.png"},
+            {name:"Pacman", rarity:"Uncommon",color:"limegreen",chance:"16%",image:"https://i.postimg.cc/s2tbZB1j/Pacman.png"},
+            {name:"Noob", rarity:"Rare",color:"blue",chance:"8%",image:"https://i.postimg.cc/hjT68S7P/Noob.png"},
+            {name:"Pong", rarity:"Rare",color:"blue",chance:"8%",image:"https://i.postimg.cc/1tw209Ny/Pong.png"},
+            {name:"Kirby", rarity:"Rare",color:"blue",chance:"8%",image:"https://i.postimg.cc/JnZv31Bw/Kirby.png"},
+            {name:"Astro Bot", rarity:"Epic",color:"red",chance:"6%",image:"https://i.postimg.cc/YSJTm4jp/Astro-Bot.png"},
+            {name:"Snake", rarity:"Epic",color:"red",chance:"6%",image:"https://i.postimg.cc/9fvsq406/Snake.png"},
+            {name:"Snake.io", rarity:"Epic",color:"red",chance:"6%",image:"https://i.postimg.cc/rpv7tdzc/Snake-io.png"},
+            {name:"Piggy",rarity:"Legendary",color:"orange",chance:"1.8%",image:"https://i.postimg.cc/TPZBWy1s/Piggy.png"},
+            {name:"Golden Pacman",rarity:"Chroma",color:"cyan",chance:"0.07%",image:"https://i.postimg.cc/1zLbNgXj/Golden-Pacman.png"},
+            {name:"Keeby",rarity:"Chroma",color:"cyan",chance:"0.05%",image:"https://i.postimg.cc/R0j2n3q4/Keeby.png"},
+            {name:"Stud",rarity:"Chroma",color:"cyan",chance:"0.04%",image:"https://i.postimg.cc/GhHP6Xq2/Stud.png"},
+            {name:"Red Piggy",rarity:"Chroma",color:"cyan",chance:"0.04%",image:"https://i.postimg.cc/tgL8V1Jm/Red-Piggy.png"}
         ]
      },
 
