@@ -1352,7 +1352,40 @@ noBtn.onclick = () => { modal.style.display = "none"; hideOverlay(); };
 const currentUser = "SuperMemes_64"; // Replace with real user check if you have auth
 if (currentUser === "SuperMemes_64") {
     document.getElementById("unlockCard").style.display = "flex";
+};
+// ---------- Utilities ----------
+function hslString(h,s,l){ return `hsl(${h},${s}%,${l}%)`; }
+function hslToRgb(h,s,l){
+  let a = s * Math.min(l,1-l);
+  const f = n => {
+    const k = (n + h/30) % 12;
+    const color = l - a * Math.max(Math.min(k-3, 9-k, 1), -1);
+    return Math.round(255 * color);
+  };
+  return [f(0), f(8), f(4)];
 }
+
+// ---------- Get applied colors from Settings ----------
+let appliedColors = JSON.parse(localStorage.getItem('appliedColors') || '{"primary":{"h":30,"s":100,"l":50},"secondary":{"h":45,"s":100,"l":50}}');
+
+// ---------- Apply background function ----------
+function applySettingsBackground(){
+  const p = appliedColors.primary;
+  const s = appliedColors.secondary;
+
+  const gridPrimary = `rgba(${hslToRgb(p.h,p.s/100,p.l/100).join(',')},0.15)`;
+  const gridSecondary = `rgba(${hslToRgb(s.h,s.s/100,s.l/100).join(',')},0.15)`;
+
+  const bg = `linear-gradient(${gridPrimary} 1px, transparent 1px),
+              linear-gradient(90deg, ${gridSecondary} 1px, transparent 1px),
+              linear-gradient(135deg, ${hslString(p.h,p.s,p.l)} 0%, ${hslString(s.h,s.s,s.l)} 100%)`;
+
+  document.body.style.background = bg;
+  document.body.style.backgroundSize = "40px 40px";
+}
+
+// ---------- Initialize ----------
+applySettingsBackground();
 </script>
 </body>
 </html>
