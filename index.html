@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1493,42 +1494,6 @@ function createResultCard(blook, pack){
     }
   });
 
-(function fixCoinCounter(){
-    const coinDisplay = document.getElementById("userCoins");
-
-    // Make sure we have userData initialized
-    function ensureUserData(){
-        let data = JSON.parse(localStorage.getItem("userData") || "null");
-        if(!data){
-            data = { username:"SuperMemes_64", coins:1000, unlockedBlooks:[], blookCounts:{}, totalPacksOpened:0 };
-            localStorage.setItem("userData", JSON.stringify(data));
-        }
-        return data;
-    }
-
-    // Refresh display
-    function updateDisplay(){
-        const data = ensureUserData();
-        if(coinDisplay) coinDisplay.textContent = data.coins;
-    }
-
-    // Keep display up-to-date after any localStorage change
-    window.addEventListener("storage", e => {
-        if(e.key === "userData") updateDisplay();
-    });
-
-    // Monkey-patch saveUserData so it also updates the DOM
-    const originalSaveUserData = window.saveUserData;
-    window.saveUserData = function(data){
-        originalSaveUserData(data);
-        updateDisplay();
-    };
-
-    // Sync every few seconds (safety net)
-    setInterval(updateDisplay, 2000);
-
-    // Initial display
-    document.addEventListener("DOMContentLoaded", updateDisplay);
 })();
 </script>
 </body>
